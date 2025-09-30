@@ -23,7 +23,6 @@ document.addEventListener('DOMContentLoaded', function () {
         document.getElementById('deseados').readOnly = true;
         document.getElementById('estrategias').readOnly = true;
 
-        // --- Primera tabla: Objetivos con criterios ---
         let html = "<h3>Tabla de Objetivos</h3>";
         html += "<table border='1' style='margin:20px auto; border-collapse:collapse; text-align:center;'>";
         html += "<tr><th>#</th><th>Tipo</th><th>Nombre</th><th>Criterio</th></tr>";
@@ -37,7 +36,7 @@ document.addEventListener('DOMContentLoaded', function () {
                             <td><input type="text" placeholder="${tipo} ${i}"></td>
                             <td>`;
                 if (tipo === "Estrategia") {
-                    html += ``; // Estrategias quedan en blanco
+                    html += `-`;
                 } else {
                     html += `<label><input type="radio" name="criterio_${contador}" value="mayor"> Mayor</label>
                              <label><input type="radio" name="criterio_${contador}" value="menor"> Menor</label>`;
@@ -93,7 +92,6 @@ document.addEventListener('DOMContentLoaded', function () {
             });
             btnGuardarTabla.disabled = true;
 
-            // --- Segunda tabla: Asignación de objetivos a estrategias ---
             let htmlFinal = "<h3>Asignación de Objetivos a Estrategias</h3>";
             htmlFinal += "<table border='1' style='margin:20px auto; border-collapse:collapse; text-align:center;'>";
             htmlFinal += "<tr><th>Estrategias</th>";
@@ -142,7 +140,6 @@ document.addEventListener('DOMContentLoaded', function () {
                 });
                 btnGuardarFinal.disabled = true;
 
-                // --- Tabla de frecuencia ---
                 const numColsOriginal = oblig + des - 1;
                 let numColsActual = numColsOriginal;
                 const numRows = numColsOriginal * 2;
@@ -180,12 +177,10 @@ document.addEventListener('DOMContentLoaded', function () {
 
                 freqHtml += "</table>";
 
-                // --- Después de generar la tabla de frecuencia ---
                 const freqContainer = document.createElement('div');
                 freqContainer.innerHTML = freqHtml;
                 tablaFinalDiv.appendChild(freqContainer);
 
-                // --- Botón para calcular la tabla de conteo ---
                 const btnCalcularConteo = document.createElement("button");
                 btnCalcularConteo.textContent = "CALCULAR";
                 btnCalcularConteo.style.display = "block";
@@ -193,7 +188,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
                 btnCalcularConteo.addEventListener("click", function () {
                     const radios = freqContainer.querySelectorAll("input[type='radio']");
-                    // Verificar que todos los grupos tengan una selección
                     const nombresRadios = new Set();
                     radios.forEach(radio => nombresRadios.add(radio.name));
                     let todosSeleccionados = true;
@@ -208,10 +202,8 @@ document.addEventListener('DOMContentLoaded', function () {
 
                     if (!confirm("¿Estás de acuerdo con la selección de la Importancia Relativa?")) return;
 
-                    // Bloquear todos los radios
                     radios.forEach(radio => radio.disabled = true);
 
-                    // Generar tabla de conteo incluyendo valores no seleccionados
                     const conteo = {};
                     radios.forEach(radio => {
                         if (radio.checked) {
@@ -239,7 +231,6 @@ document.addEventListener('DOMContentLoaded', function () {
                     conteoDiv.innerHTML = htmlConteo;
                     tablaFinalDiv.appendChild(conteoDiv);
 
-                    // --- Bloquear el botón para que no se vuelva a calcular ---
                     btnCalcularConteo.disabled = true;
 
                     const btnCalcularDecision = document.createElement("button");
@@ -248,7 +239,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     btnCalcularDecision.style.margin = "20px auto";
 
                     btnCalcularDecision.addEventListener("click", function () {
-                        // Tomar criterios de la primera tabla
+
                         const filasObjetivos = tablaDiv.querySelectorAll("table tr");
                         const criterios = [];
 
@@ -263,7 +254,6 @@ document.addEventListener('DOMContentLoaded', function () {
                             }
                         });
 
-                        // Tomar valores de la segunda tabla
                         const filasValores = tablaFinalDiv.querySelectorAll("table")[0].querySelectorAll("tr");
                         const valores = [];
                         for (let i = 1; i < filasValores.length; i++) {
@@ -279,13 +269,11 @@ document.addEventListener('DOMContentLoaded', function () {
                         const numEstrategias = valores.length;
                         const numObjetivos = criterios.length;
 
-                        // Inicializar matriz de conteo
                         const conteo = [];
                         for (let i = 0; i < numEstrategias; i++) {
                             conteo.push(new Array(numObjetivos).fill(0));
                         }
 
-                        // Comparaciones por objetivo
                         for (let j = 0; j < numObjetivos; j++) {
                             for (let i = 0; i < numEstrategias - 1; i++) {
                                 for (let k = i + 1; k < numEstrategias; k++) {
@@ -294,7 +282,7 @@ document.addEventListener('DOMContentLoaded', function () {
                                     const criterio = criterios[j];
 
                                     if (valI === valK) {
-                                        conteo[i][j] += 1; // solo el primero recibe +1
+                                        conteo[i][j] += 1;
                                     } else if (criterio === "mayor") {
                                         if (valI > valK) conteo[i][j] += 1;
                                         else conteo[k][j] += 1;
@@ -306,7 +294,6 @@ document.addEventListener('DOMContentLoaded', function () {
                             }
                         }
 
-                        // Generar tabla de conteo
                         let htmlConteo = "<h3>Tabla de Comparación por Objetivo</h3>";
                         htmlConteo += "<table border='1' style='margin:20px auto; border-collapse:collapse; text-align:center;'>";
                         htmlConteo += "<tr><th>Estrategia</th>";
@@ -323,7 +310,6 @@ document.addEventListener('DOMContentLoaded', function () {
                             htmlConteo += "</tr>";
                         }
 
-                        // Fila de sumatoria
                         htmlConteo += "<tr style='font-weight:bold; background-color:#f0f0f0;'><td>Total</td>";
                         for (let j = 0; j < numObjetivos; j++) {
                             htmlConteo += `<td>${sumaColumna[j]}</td>`;
@@ -334,7 +320,6 @@ document.addEventListener('DOMContentLoaded', function () {
                         conteoDiv.innerHTML = htmlConteo;
                         tablaFinalDiv.appendChild(conteoDiv);
 
-                        // --- Vector de Conteo de Selecciones ---
                         const radios = tablaFinalDiv.querySelectorAll("input[type='radio']");
                         const conteoSelecciones = {};
                         radios.forEach(radio => {
@@ -350,14 +335,12 @@ document.addEventListener('DOMContentLoaded', function () {
                             conteoArray.push(conteoSelecciones[i] || 0);
                         }
 
-                        // --- Generar tabla pivote con estética ---
                         let htmlPivote = "<h3>Tabla Final</h3>";
                         htmlPivote += "<table border='1' style='margin:20px auto; border-collapse:collapse; text-align:center;'>";
 
-                        // Cabecera
                         htmlPivote += "<tr><th rowspan='2'>I.R.</th>";
                         for (let j = 0; j < numEstrategias; j++) {
-                            htmlPivote += `<th colspan='2'>E${j + 1}</th>`;
+                            htmlPivote += `<th colspan='2'>${estrategiasList[j]}</th>`;
                         }
                         htmlPivote += "</tr><tr>";
                         for (let j = 0; j < numEstrategias; j++) {
@@ -365,7 +348,6 @@ document.addEventListener('DOMContentLoaded', function () {
                         }
                         htmlPivote += "</tr>";
 
-                        // Transpuesta de la matriz de conteo
                         const transpuesta = [];
                         for (let j = 0; j < numObjetivos; j++) {
                             transpuesta[j] = [];
@@ -374,12 +356,11 @@ document.addEventListener('DOMContentLoaded', function () {
                             }
                         }
 
-                        // Filas principales
                         const sumaMultiplicaciones = new Array(numEstrategias).fill(0);
                         for (let i = 0; i < conteoArray.length; i++) {
                             htmlPivote += "<tr>";
                             const pivote = conteoArray[i];
-                            htmlPivote += `<td>${pivote}</td>`; // pivote
+                            htmlPivote += `<td>${pivote}</td>`;
 
                             for (let j = 0; j < numEstrategias; j++) {
                                 const val = transpuesta[i][j] || 0;
@@ -390,7 +371,6 @@ document.addEventListener('DOMContentLoaded', function () {
                             htmlPivote += "</tr>";
                         }
 
-                        // Fila total
                         htmlPivote += "<tr style='font-weight:bold; background-color:#f0f0f0;'><td>Total</td>";
                         for (let j = 0; j < numEstrategias; j++) {
                             htmlPivote += `<td colspan='2'>${sumaMultiplicaciones[j]}</td>`;
@@ -399,19 +379,67 @@ document.addEventListener('DOMContentLoaded', function () {
 
                         htmlPivote += "</table>";
 
+                        const maxValorFinal = Math.max(...sumaMultiplicaciones);
+                        const minValorFinal = Math.min(...sumaMultiplicaciones);
+
+                        const mejores = [];
+                        const peores = [];
+
+                        for (let j = 0; j < numEstrategias; j++) {
+                            if (sumaMultiplicaciones[j] === maxValorFinal) mejores.push(estrategiasList[j]);
+                            if (sumaMultiplicaciones[j] === minValorFinal) peores.push(estrategiasList[j]);
+                        }
+
+                        htmlPivote += `
+                            <div id="resultados_decision" style="text-align:center; margin:auto; font-family:'Comic Relief', system-ui;">
+                                <div class="mejor" style="color:#2c8a43; font-size:24px; font-weight:bold; margin-bottom:10px;">
+                                    Mejor opción: ${mejores.join(", ")}
+                                </div>
+                            <div class="peor" style="color:#ff4d4f; font-size:24px; font-weight:bold;">
+                                    Peor opción: ${peores.join(", ")}
+                            </div>
+                            </div>
+                        `;
+
+
                         const pivoteDiv = document.createElement("div");
                         pivoteDiv.innerHTML = htmlPivote;
                         tablaFinalDiv.appendChild(pivoteDiv);
 
                         alert("✔ Cálculo de decisión realizado");
                         btnCalcularDecision.disabled = true;
+
+                        const btnExportPDF = document.createElement("button");
+                        btnExportPDF.textContent = "EXPORTAR PDF";
+                        btnExportPDF.style.display = "block";
+                        btnExportPDF.style.margin = "20px auto";
+
+                        btnExportPDF.addEventListener("click", async function () {
+                            
+                            const body = document.body;
+                        
+                            const canvas = await html2canvas(body, { scale: 2 });
+
+                            const imgData = canvas.toDataURL("image/png");
+
+                            const { jsPDF } = window.jspdf;
+                            const pdf = new jsPDF('p', 'pt', 'a4');
+                            const pdfWidth = pdf.internal.pageSize.getWidth();
+                            const pdfHeight = pdf.internal.pageSize.getHeight();
+
+                            pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
+
+                            pdf.save("DeciCASE.pdf");
+                        });
+
+                        const footer = document.getElementById("pie");
+                        footer.parentNode.insertBefore(btnExportPDF, footer);
+
                     });
 
-                    // Agregar el botón debajo de la tabla de conteo
                     tablaFinalDiv.appendChild(btnCalcularDecision);
                 });
 
-                // Agregar el botón debajo de la tabla de frecuencia
                 tablaFinalDiv.appendChild(btnCalcularConteo);
             });
         });
