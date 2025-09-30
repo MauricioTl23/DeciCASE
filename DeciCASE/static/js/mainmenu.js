@@ -285,7 +285,7 @@ document.addEventListener('DOMContentLoaded', function () {
                             conteo.push(new Array(numObjetivos).fill(0));
                         }
 
-                        // Comparaciones por objetivo, solo con filas posteriores
+                        // Comparaciones por objetivo
                         for (let j = 0; j < numObjetivos; j++) {
                             for (let i = 0; i < numEstrategias - 1; i++) {
                                 for (let k = i + 1; k < numEstrategias; k++) {
@@ -306,7 +306,7 @@ document.addEventListener('DOMContentLoaded', function () {
                             }
                         }
 
-                        // Generar tabla de conteo con suma de cada columna
+                        // Generar tabla de conteo
                         let htmlConteo = "<h3>Tabla de Comparación por Objetivo</h3>";
                         htmlConteo += "<table border='1' style='margin:20px auto; border-collapse:collapse; text-align:center;'>";
                         htmlConteo += "<tr><th>Estrategia</th>";
@@ -323,7 +323,7 @@ document.addEventListener('DOMContentLoaded', function () {
                             htmlConteo += "</tr>";
                         }
 
-                        // Fila de sumatoria por columna
+                        // Fila de sumatoria
                         htmlConteo += "<tr style='font-weight:bold; background-color:#f0f0f0;'><td>Total</td>";
                         for (let j = 0; j < numObjetivos; j++) {
                             htmlConteo += `<td>${sumaColumna[j]}</td>`;
@@ -350,11 +350,22 @@ document.addEventListener('DOMContentLoaded', function () {
                             conteoArray.push(conteoSelecciones[i] || 0);
                         }
 
-                        // --- Generar tabla de transpuesta ---
-                        let htmlTranspuesta = "<h3>Transpuesta de la Tabla de Comparación</h3>";
-                        htmlTranspuesta += "<table border='1' style='margin:20px auto; border-collapse:collapse; text-align:center;'>";
+                        // --- Generar tabla pivote con estética ---
+                        let htmlPivote = "<h3>Tabla Final</h3>";
+                        htmlPivote += "<table border='1' style='margin:20px auto; border-collapse:collapse; text-align:center;'>";
 
-                        // Transpuesta de la matriz de conteo por objetivo
+                        // Cabecera
+                        htmlPivote += "<tr><th rowspan='2'>I.R.</th>";
+                        for (let j = 0; j < numEstrategias; j++) {
+                            htmlPivote += `<th colspan='2'>E${j + 1}</th>`;
+                        }
+                        htmlPivote += "</tr><tr>";
+                        for (let j = 0; j < numEstrategias; j++) {
+                            htmlPivote += "<th>ER</th><th>EP</th>";
+                        }
+                        htmlPivote += "</tr>";
+
+                        // Transpuesta de la matriz de conteo
                         const transpuesta = [];
                         for (let j = 0; j < numObjetivos; j++) {
                             transpuesta[j] = [];
@@ -363,21 +374,34 @@ document.addEventListener('DOMContentLoaded', function () {
                             }
                         }
 
-                        // Construir filas: primera columna = conteoSelecciones
+                        // Filas principales
+                        const sumaMultiplicaciones = new Array(numEstrategias).fill(0);
                         for (let i = 0; i < conteoArray.length; i++) {
-                            htmlTranspuesta += "<tr>";
-                            htmlTranspuesta += `<td>${conteoArray[i]}</td>`; // primera columna = conteo de selecciones
+                            htmlPivote += "<tr>";
+                            const pivote = conteoArray[i];
+                            htmlPivote += `<td>${pivote}</td>`; // pivote
+
                             for (let j = 0; j < numEstrategias; j++) {
-                                htmlTranspuesta += `<td>${transpuesta[i][j] || 0}</td>`;
+                                const val = transpuesta[i][j] || 0;
+                                const mult = pivote * val;
+                                htmlPivote += `<td>${val}</td><td>${mult}</td>`;
+                                sumaMultiplicaciones[j] += mult;
                             }
-                            htmlTranspuesta += "</tr>";
+                            htmlPivote += "</tr>";
                         }
 
-                        htmlTranspuesta += "</table>";
+                        // Fila total
+                        htmlPivote += "<tr style='font-weight:bold; background-color:#f0f0f0;'><td>Total</td>";
+                        for (let j = 0; j < numEstrategias; j++) {
+                            htmlPivote += `<td colspan='2'>${sumaMultiplicaciones[j]}</td>`;
+                        }
+                        htmlPivote += "</tr>";
 
-                        const transpuestaDiv = document.createElement("div");
-                        transpuestaDiv.innerHTML = htmlTranspuesta;
-                        tablaFinalDiv.appendChild(transpuestaDiv);
+                        htmlPivote += "</table>";
+
+                        const pivoteDiv = document.createElement("div");
+                        pivoteDiv.innerHTML = htmlPivote;
+                        tablaFinalDiv.appendChild(pivoteDiv);
 
                         alert("✔ Cálculo de decisión realizado");
                         btnCalcularDecision.disabled = true;
