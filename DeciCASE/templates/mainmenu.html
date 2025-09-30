@@ -1,0 +1,56 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>DeciCASE v1.0</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Comic+Relief:wght@400;700&family=Rubik+Doodle+Shadow&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/mainmenu.css' %}">
+</head>
+<body>
+    <div id="contenedor_p">
+        <img id="img_l" src="{% static 'icons/LOGO.png' %}" alt="Logo">
+        <div id="contenedor_t">
+            <h1 id="titulo_principal" >DeciCASE</h1>
+            <p id="team">Quirquinchos<p>
+        </div>
+        <img id="img_d" src="{% static 'icons/LOGO_SIS.png' %}" alt="Logo SIS">
+    </div>
+    <div id="information">
+        <p id="inf">Esta es una herramienta CASE que ayuda a tomar decisiones
+            bajo certidumbre.<p>
+        <h2 id="subtittel1">OBJETIVOS OBLIGATORIOS, OBJETIVOS DESEADOS Y ESTRATEGIAS</h2>
+    </div>
+    <div id="objetivos">
+        <form id="objetivosForm" method="POST" action="{% url 'save_objectives' %}">
+        {% csrf_token %}
+        <div class="inputGroup">
+            <label for="obligatorios">Objetivos Obligatorios:</label>
+            <input type="number" id="obligatorios" name="obligatorios" min="0" required>
+        </div>
+  
+        <div class="inputGroup">
+            <label for="deseados">Objetivos Deseados:</label>
+            <input type="number" id="deseados" name="deseados" min="0" required>
+        </div>
+  
+        <div class="inputGroup">
+            <label for="estrategias">Estrategias:</label>
+            <input type="number" id="estrategias" name="estrategias" min="0"  required>
+        </div>
+        <button id="btnGenerar">
+            <span>GENERAR</span>
+        </button>
+    </form>
+    </div>
+    <div id="tabla_dinamica"></div>
+    <div id="tabla_final"></div>
+</body>
+<script src="{% static 'js/mainmenu.js' %}"></script>
+<footer id="pie">
+    <p>© 2025 DeciCASE. Todos los derechos reservados.</p>
+    <p>Diseñado por el equipo Quirquinchos</p>
+</footer>
+</html>
