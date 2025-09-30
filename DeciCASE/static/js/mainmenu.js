@@ -251,6 +251,7 @@ document.addEventListener('DOMContentLoaded', function () {
                         // Tomar criterios de la primera tabla
                         const filasObjetivos = tablaDiv.querySelectorAll("table tr");
                         const criterios = [];
+
                         filasObjetivos.forEach((fila, index) => {
                             if (index === 0) return;
                             const tipo = fila.cells[1].innerText;
@@ -312,10 +313,12 @@ document.addEventListener('DOMContentLoaded', function () {
                         for (let j = 0; j < numObjetivos; j++) htmlConteo += `<th>Obj ${j + 1}</th>`;
                         htmlConteo += "</tr>";
 
+                        const sumaColumna = new Array(numObjetivos).fill(0);
                         for (let i = 0; i < numEstrategias; i++) {
                             htmlConteo += `<tr><td>${i + 1}</td>`;
                             for (let j = 0; j < numObjetivos; j++) {
                                 htmlConteo += `<td>${conteo[i][j]}</td>`;
+                                sumaColumna[j] += conteo[i][j];
                             }
                             htmlConteo += "</tr>";
                         }
@@ -323,17 +326,58 @@ document.addEventListener('DOMContentLoaded', function () {
                         // Fila de sumatoria por columna
                         htmlConteo += "<tr style='font-weight:bold; background-color:#f0f0f0;'><td>Total</td>";
                         for (let j = 0; j < numObjetivos; j++) {
-                            let sumaCol = 0;
-                            for (let i = 0; i < numEstrategias; i++) {
-                                sumaCol += conteo[i][j];
-                            }
-                            htmlConteo += `<td>${sumaCol}</td>`;
+                            htmlConteo += `<td>${sumaColumna[j]}</td>`;
                         }
                         htmlConteo += "</tr></table>";
 
                         const conteoDiv = document.createElement("div");
                         conteoDiv.innerHTML = htmlConteo;
                         tablaFinalDiv.appendChild(conteoDiv);
+
+                        // --- Vector de Conteo de Selecciones ---
+                        const radios = tablaFinalDiv.querySelectorAll("input[type='radio']");
+                        const conteoSelecciones = {};
+                        radios.forEach(radio => {
+                            if (radio.checked) {
+                                const val = Number(radio.value);
+                                conteoSelecciones[val] = (conteoSelecciones[val] || 0) + 1;
+                            }
+                        });
+
+                        const conteoArray = [];
+                        const maxValor = Math.max(...Object.keys(conteoSelecciones));
+                        for (let i = 1; i <= maxValor; i++) {
+                            conteoArray.push(conteoSelecciones[i] || 0);
+                        }
+
+                        // --- Generar tabla de transpuesta ---
+                        let htmlTranspuesta = "<h3>Transpuesta de la Tabla de Comparación</h3>";
+                        htmlTranspuesta += "<table border='1' style='margin:20px auto; border-collapse:collapse; text-align:center;'>";
+
+                        // Transpuesta de la matriz de conteo por objetivo
+                        const transpuesta = [];
+                        for (let j = 0; j < numObjetivos; j++) {
+                            transpuesta[j] = [];
+                            for (let i = 0; i < numEstrategias; i++) {
+                                transpuesta[j][i] = conteo[i][j];
+                            }
+                        }
+
+                        // Construir filas: primera columna = conteoSelecciones
+                        for (let i = 0; i < conteoArray.length; i++) {
+                            htmlTranspuesta += "<tr>";
+                            htmlTranspuesta += `<td>${conteoArray[i]}</td>`; // primera columna = conteo de selecciones
+                            for (let j = 0; j < numEstrategias; j++) {
+                                htmlTranspuesta += `<td>${transpuesta[i][j] || 0}</td>`;
+                            }
+                            htmlTranspuesta += "</tr>";
+                        }
+
+                        htmlTranspuesta += "</table>";
+
+                        const transpuestaDiv = document.createElement("div");
+                        transpuestaDiv.innerHTML = htmlTranspuesta;
+                        tablaFinalDiv.appendChild(transpuestaDiv);
 
                         alert("✔ Cálculo de decisión realizado");
                         btnCalcularDecision.disabled = true;
