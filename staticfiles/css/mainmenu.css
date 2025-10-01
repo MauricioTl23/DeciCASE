@@ -1,0 +1,282 @@
+#contenedor_p {
+    display: flex;
+    align-items: center;      
+    justify-content: center; 
+    gap: 50px; 
+    background-color: rgb(34, 95, 151);
+}
+
+#titulo_principal {
+    text-align: center;
+    font-family: "Rubik Doodle Shadow", system-ui;
+    font-size: 110px;
+    font-style: normal;
+    color: #ffffff;
+    flex: 1;
+    margin: auto;
+}
+
+#team {
+    text-align: center;
+    font-family: "Rubik Doodle Shadow", system-ui;
+    font-size: 40px;
+    color: #FFD700;
+    flex: 1;
+    margin: auto;
+    font-style: normal;
+}
+
+#img_l {
+    width: 300px;
+    height: auto;
+    margin: auto;
+}
+
+#img_d {
+    width: 250px;
+    height: auto; 
+    margin: auto;
+    margin-right: 60px;
+}
+
+#inf{
+    text-align: center;
+    font-family: "Comic Relief", system-ui;
+    font-style: normal;
+    font-size: 20px;
+    color: #274286;
+    flex: 1;
+    margin: 25px;
+}
+
+#subtittel1{
+    text-align: center;
+    font-family: "Rubik Doodle Shadow", system-ui;
+    font-style: normal;
+    font-size: 40px;
+    color: #2c8a43;
+    flex: 1;
+    margin: auto;
+}
+
+#objetivos form {
+    display: flex;
+    justify-content: center; 
+    align-items: center;     
+    gap: 30px;               
+    flex-wrap: wrap;         
+    width: 100%;
+}
+
+
+.inputGroup {
+  font-family: "Comic Relief", system-ui;
+  display: flex;
+  flex-direction: column; 
+  align-items: center;    
+  margin: 1em;
+  max-width: 180px;
+}
+
+.inputGroup label {
+  font-size: 14px;
+  text-align: center;    
+  margin-bottom: 8px;  
+  color: #333;
+}
+
+.inputGroup input {
+  font-size: 16px;
+  padding: 0.8em;
+  outline: none;
+  border: 2px solid rgb(200, 200, 200);
+  background-color: transparent;
+  border-radius: 20px;
+  width: 100%;
+  text-align: center;   
+  transition: border-color 0.3s ease;
+}
+
+.inputGroup input:focus {
+  border-color: rgb(150, 150, 200);
+}
+
+#pie {
+    background-color: rgb(34, 95, 151);   
+    color: #fff;           
+    text-align: center;       
+    padding: 15px 0;       
+    position: relative;       
+    bottom: 0;                
+    width: 100%;              
+    font-family: "Comic Relief", system-ui;
+}
+#pie p {
+    margin: auto;            
+    font-size: 14px;
+}
+
+button {
+ display: inline-block;
+ border-radius: 4px;
+ background-color: rgb(34, 95, 151);
+ border: none;
+ color: #FFFFFF;
+ text-align: center;
+ font-size: 17px;
+ padding: 16px;
+ width: 130px;
+ transition: all 0.5s;
+ cursor: pointer;
+ margin: 5px;
+}
+
+button span {
+ cursor: pointer;
+ display: inline-block;
+ position: relative;
+ transition: 0.5s;
+}
+
+button span:after {
+ content: '»';
+ position: absolute;
+ opacity: 0;
+ top: 0;
+ right: -15px;
+ transition: 0.5s;
+}
+
+button:hover span {
+ padding-right: 15px;
+}
+
+button:hover span:after {
+ opacity: 1;
+ right: 0;
+}
+
+#tabla_dinamica table {
+    margin: 20px auto;   
+    border-collapse: collapse;
+    width: 80%;
+    max-width: 700px;
+    font-family: "Comic Relief", system-ui;
+    text-align: center;
+}
+
+#tabla_dinamica th, #tabla_dinamica td {
+    border: 2px solid #888;
+    padding: 10px;
+    font-size: 16px;
+}
+
+#tabla_dinamica th {
+    background-color: #f2f2f2;
+    color: #333;
+}
+
+#tabla_dinamica input[type="number"] {
+    width: 60px;
+    padding: 5px;
+    border-radius: 6px;
+    border: 1px solid #999;
+    text-align: center;
+    font-size: 14px;
+}
+
+/* Opcional: filas alternadas */
+#tabla_dinamica tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+#tabla_dinamica tr:hover {
+    background-color: #e6f7ff;
+}
+#tabla_dinamica h3 {
+    text-align: center;         
+    font-family: 'Rubik Doodle Shadow'; 
+    color: #229fa1;                 
+    margin-bottom: 15px;        
+    font-size: 30px;            
+}
+
+#tabla_dinamica input[type="text"],
+#tabla_dinamica input[type="number"] {
+    font-family: 'Comic Relief', system-ui;
+    font-size: 16px;                       
+    color: #333;                            
+    padding: 4px 6px;                     
+    text-align: center;                     
+    border-radius: 4px;                      
+    border: 1px solid #aaa;                 
+}
+
+#tabla_dinamica input:focus {
+    border-color: #ff9800;                   
+    outline: none;                           
+}
+
+
+#tabla_final table {
+    margin: 20px auto;   
+    border-collapse: collapse;
+    width: 80%;
+    max-width: 700px;
+    font-family: "Comic Relief", system-ui;
+    text-align: center;
+}
+
+#tabla_final th, #tabla_final td {
+    border: 2px solid #888;
+    padding: 10px;
+    font-size: 16px;
+}
+
+#tabla_final th {
+    background-color: #f2f2f2;
+    color: #333;
+}
+
+#tabla_final input[type="number"] {
+    width: 60px;
+    padding: 5px;
+    border-radius: 6px;
+    border: 1px solid #999;
+    text-align: center;
+    font-size: 14px;
+}
+
+/* Opcional: filas alternadas */
+#tabla_final tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+#tabla_final tr:hover {
+    background-color: #e6f7ff;
+}
+#tabla_final h3 {
+    text-align: center;         
+    font-family: 'Rubik Doodle Shadow'; 
+    color: #229fa1;                 
+    margin-bottom: 15px;        
+    font-size: 30px;            
+}
+
+#tabla_final input[type="text"],
+#tabla_final input[type="number"] {
+    font-family: 'Comic Relief', system-ui;
+    font-size: 16px;                       
+    color: #333;                            
+    padding: 4px 6px;                     
+    text-align: center;                     
+    border-radius: 4px;                      
+    border: 1px solid #aaa;                 
+}
+
+#tabla_final input:focus {
+    border-color: #ff9800;                   
+    outline: none;                           
+}
+
+
