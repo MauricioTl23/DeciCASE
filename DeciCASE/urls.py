@@ -1,10 +1,10 @@
 from django.contrib import admin
 from django.urls import path
-from DeciCASE.views import main, save_objectives
+from DeciCASE import views 
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', main, name='home'),
-    path('main/', main),
-    path('save/', save_objectives, name='save_objectives'),
+    path('', views.main, name='home'),  
+    path('main/', views.main),
+    path('save/', views.save_objectives, name='save_objectives'),
 ]
